@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<HTML>
+	<HEAD>
+		<style>
+			body{background-color:#aea4ae;background-attachment:fixed;
+			background-image:url("registerlogo.png");background-repeat:no-repeat;
+			background-position:90% 50%;background-size:12%;}
+			input{position:absolute;right:5%;}
+			fieldset{width:50%;position:absolute;left:10%;top:10%;height:50%;
+			border-radius:10px;border: 5px solid #5e005e;}
+			#spartathebutton{position:absolute;right:5%;background-color:#500050;font-size:15px;
+			border-radius:5px;border:0px solid black;color:#aeaaae;height:10%;width:25%;}
+			.debug{position:absolute;right:5px;width:40%;}
+		</style>
+		<script src="jquery-1.12.3.js"></script>
+		<script>
+			var cname = false;var cpass = false;var crpass = false;var cage = false;var cemail = false;
+			var glPassChecker = "";
+			function checklengthofpassword(str)
+			{
+				glPassChecker = str;
+				if(str.length < 6)
+				{
+					$("#passwordr").css("color","red");
+					$("#passwordr").html("Too Short");
+					cpass = false;
+				}
+				else
+				{
+					$("#passwordr").css("color","green");
+					$("#passwordr").html("OK");
+					cpass = true;
+				}
+			}
+			function checkresemblerpassword(str)
+			{
+				if(glPassChecker == str)
+				{	
+					$("#rpasswordr").css("color","green");
+					$("#rpasswordr").html("Matched");
+					crpass = true;
+				}
+				else
+				{
+					$("#rpasswordr").css("color","red");
+					$("#rpasswordr").html("Unmatched");
+					crpass = false;
+				}
+			}
+			function checkwrongage(str)
+			{
+				if(Number(str) < 1)
+				{
+					$("#ager").css("color","red");
+					$("#ager").html("Invalid age");
+					cage = false;
+				}
+				else
+				{
+					$("#ager").css("color","green");
+					$("#ager").html("OK");
+					cage = true;
+				}
+			}
+			function checkwrongemail(str)
+			{
+				if(str.search("@") < 4)
+				{
+					$("emailr").css("color","red");
+					$("#emailr").html("Invalid email");
+					cemail = false;
+				}
+				else
+				{
+					$("#emailr").css("color","green");
+					$("#emailr").html(" ");
+					cemail = true;
+					
+				}
+			}
+			$(document).ready(function(){$("#spartathebutton").click(function(){
+				if(cname == true && cpass == true && crpass == true && cage == true && cemail == true)
+					$("#spartathebutton").removeAttr("disabled");
+				else
+					$("#ever").html("Provide all information");
+			})})
+			function checkname(str)
+			{
+				if(str.length == 0){ $("#namer").html("--");}
+				else
+				{// Create our XMLHttpRequest object
+					var hr = new XMLHttpRequest();
+					// Create some variables we need to send to our PHP file
+					var url = "http:///localhost:8500//WP%20A4//useravailable.php";
+					var vars = "name="+str;
+					hr.open("POST", url, true);
+					// Set content type header information for sending url encoded variables in the request
+					hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					// Access the onreadystatechange event for the XMLHttpRequest object
+					hr.onreadystatechange = function()
+					{
+						if(hr.readyState == 4 && hr.status == 200)
+						{
+							var return_data = hr.responseText;
+							$("#namer").html(return_data);
+						}
+					}
+					// Send the data to PHP now... and wait for response to update the status div
+					hr.send(vars); // Actually execute the request
+				}
+			}
+		</script>
+	</HEAD>
+	<BODY>
+	<div id="formdiv">
+		<form method="post" action="http:///localhost:8500//WP%20A4//registerdbentry.php">
+		<fieldset><legend>Fill Your Information</legend>
+		Name:
+		<input type="text" id="username" name="user" onkeyup="checkname(this.value)" /><br><br>
+		<div class="debug" id="namer"></div><br>
+		Password:
+		<input type="password" id="userpass" name="password" onkeyup="checklengthofpassword(this.value)" /><br><br>
+		<div class="debug" id="passwordr"></div><br>
+		Re-type Password:
+		<input type="password" id="userpassr" name="rpassword" onkeyup="checkresemblerpassword(this.value)" /><br><br>
+		<div class="debug" id="rpasswordr"></div><br>
+		Age:
+		<input type="text" id="userage" name="age" onkeyup="checkwrongage(this.value)" /><br><br>
+		<div class="debug" id="ager"></div><br>
+		Email:
+		<input type="email" id="useremail" name="email" onkeyup="checkwrongemail(this.value)" /><br><br>
+		<div class="debug" id="emailr"></div><br>
+		<span id="ever"></span>
+		<button id="spartathebutton" type="submit">Register</button><br>
+		</fieldset>
+		</form>
+	</div>
+	</BODY>
+</HTML>

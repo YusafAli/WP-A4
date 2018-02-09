@@ -1,0 +1,3 @@
+The game can be made in a "Save the dragonborn" style.
+The words can be from the skyrim
+There can be a quest based question that will be asked by the alert kind of notification, so it will be the players fault to disable javascript
