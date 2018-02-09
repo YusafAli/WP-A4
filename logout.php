@@ -1,4 +1,5 @@
 <?php
+	//Check startsession.php comment about this shitty idea.
 	//Destroy the session
 	session_start();
 	$_SESSION = array();

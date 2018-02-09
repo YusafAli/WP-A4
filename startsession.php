@@ -1,4 +1,5 @@
 <?php
+	//An idiotic idea to keep track of online users, better having column in users table
 	session_start();
 	$aFile = fopen("onlinePlayers.txt", "r");
 	$temp = fgets($aFile);
